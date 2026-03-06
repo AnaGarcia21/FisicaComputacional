@@ -1,0 +1,35 @@
+OVERFLOW
+# BUSCANDO EL OVERFLOW
+print("Calculando el Overflow de un float...")
+
+entrada = input("Introduce un número (ejemplo: 1e300): ")
+numero_grande = float(entrada)
+
+print(f"Número inicial: {numero_grande}")
+
+# Mientras el número NO sea infinito, sigue multiplicando
+pasos = 0
+while numero_grande != float('inf'):
+    numero_grande = numero_grande * 10
+    pasos = pasos + 1
+    print(f"Paso {pasos}: {numero_grande}")
+
+print(f"\n¡Llegaste al overflow en el paso {pasos}!")
+
+UNDERFLOW
+# BUSCANDO EL UNDERFLOW
+print("\nCalculando el Underflow de un float...")
+
+entrada = input("Introduce un número (ejemplo: 0.1e-300): ")
+numero_pequeño = float(entrada)
+
+print(f"Número inicial: {numero_pequeño}")
+
+# Mientras el número sea mayor a 0.0, sigue dividiendo
+pasos = 0
+while numero_pequeño > 0.0:
+    numero_pequeño = numero_pequeño / 10
+    pasos = pasos + 1
+    print(f"Paso {pasos}: {numero_pequeño}")
+
+print(f"\n¡Llegaste al underflow (0.0) en el paso {pasos}!")
