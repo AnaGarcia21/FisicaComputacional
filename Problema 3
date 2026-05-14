@@ -1,0 +1,78 @@
+# 1. GENERACIÓN DE DATOS
+
+semilla = 0.357
+n = 1000
+datos_logistico = []
+datos_tienda = []
+
+# Mapeo Logístico
+x = semilla
+for _ in range(n):
+    x = 4 * x * (1 - x)
+    datos_logistico.append(x)
+
+# Mapeo Tienda
+x = semilla
+for _ in range(n):
+    if x < 0.5: x = 2 * x
+    else: x = 2 * (1 - x)
+    datos_tienda.append(x)
+
+
+# 2. FUNCIÓN PARA CÁLCULOS 
+
+def calcular_todo(lista):
+    total = len(lista)
+    
+    # CALCULAR MEDIA
+    media = sum(lista) / total
+    
+    suma_cuadrados = 0
+    suma_cubos = 0
+    
+    for valor in lista:
+        diferencia = valor - media
+        
+        # PARA LA VARIANZA USAMOS EL CUADRADO (**)
+        suma_cuadrados += diferencia ** 2
+        
+        # PARA LA ASIMETRÍA USAMOS EL CUBO (***)
+        suma_cubos += diferencia ** 3 
+    
+    # FINALIZANDO LOS CÁLCULOS
+    varianza = suma_cuadrados / total
+    desviacion = varianza ** 0.5
+    
+    # CÁLCULO FINAL DE LA ASIMETRÍA ESTADÍSTICA
+    asimetria = (suma_cubos / total) / (desviacion ** 3)
+    
+    return media, varianza, asimetria
+
+# 3. MOSTRAR RESULTADOS
+
+m1, v1, a1 = calcular_todo(datos_logistico)
+m2, v2, a2 = calcular_todo(datos_tienda)
+
+print("--- RESULTADOS MAPEO LOGÍSTICO ---")
+print(f"Media: {m1:.4f} | Varianza: {v1:.4f} | Asimetría: {a1:.4f}")
+
+print("\n--- RESULTADOS MAPEO TIENDA ---")
+print(f"Media: {m2:.4f} | Varianza: {v2:.4f} | Asimetría: {a2:.4f}")
+
+# 4. Histogramas
+
+import matplotlib.pyplot as plt
+
+def generar_grafico(datos, titulo, color):
+    plt.hist(datos, bins=5, range=(0,1), color=color, edgecolor='black', alpha=0.7)
+    plt.title(f'Histograma: {titulo}')
+    plt.xlabel('Rango de valores (0 a 1)')
+    plt.ylabel('Frecuencia (cantidad de números)')
+    plt.grid(axis='y', linestyle='--', alpha=0.6)
+
+    # Mostramos el gráfico
+    plt.show()
+
+# Llamamos a la función para ambos resultados
+generar_grafico(datos_logistico, "Mapeo Logístico", "blue")
+generar_grafico(datos_tienda, "Mapeo Tienda de Campaña", "red")
